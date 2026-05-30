@@ -71,7 +71,11 @@ function Comparison() {
             <span className="ak-cmp-feat">{feat}</span>
             {cells.map((on, i) => (
               <span key={i} className="ak-cmp-cell">
-                {on ? <Icon name="check" size={16} className="yes" /> : <span className="no">—</span>}
+                {on ? (
+                  <Icon name="check" size={16} className="yes" />
+                ) : (
+                  <span className="no">—</span>
+                )}
               </span>
             ))}
           </div>
@@ -117,8 +121,8 @@ export function ServicesView() {
         <Eyebrow>servicios</Eyebrow>
         <h1 className="ak-page-title">Planes claros, sin sorpresas</h1>
         <p className="ak-page-lead">
-          Servicios de consultoría en platform engineering, cloud-native y desarrollo
-          fullstack. Precios fijos, sin sorpresas.
+          Servicios de consultoría en platform engineering, cloud-native y desarrollo fullstack.
+          Precios fijos, sin sorpresas.
         </p>
         <div style={{ marginTop: 8 }}>
           <PricingToggle mode={mode} setMode={setMode} />

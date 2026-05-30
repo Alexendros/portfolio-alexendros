@@ -13,9 +13,9 @@ export function Hero() {
         Plataformas que escalan. <em>Software</em> que los equipos quieren usar.
       </h1>
       <p className="ak-hero-c-lead" data-reveal data-reveal-delay="2">
-        Construyo plataformas internas, infraestructura cloud-native y aplicaciones
-        fullstack que resuelven problemas reales de ingeniería. 9 años convirtiendo
-        complejidad en sistemas que funcionan solos.
+        Construyo plataformas internas, infraestructura cloud-native y aplicaciones fullstack que
+        resuelven problemas reales de ingeniería. 9 años convirtiendo complejidad en sistemas que
+        funcionan solos.
       </p>
       <div className="ak-hero-c-cta" data-reveal data-reveal-delay="2">
         <Button variant="primary" href="/proyectos">

@@ -5,15 +5,15 @@
 
 ## Stack
 
-| Capa | Tecnología |
-|---|---|
-| Framework | Next.js 16 (App Router, Turbopack), React 19, TypeScript estricto |
-| Estilos | Tailwind CSS v4 (`@theme`) + `src/styles/site.css` (portado, clases `ak-*`) + tokens `design-tokens.css` |
-| Fuentes / iconos | `next/font` (Inter, JetBrains Mono) · `lucide-react` |
-| Contenido | Módulos TS tipados (`src/lib/content/`) + blog en MDX (`content/blog/`) |
-| Backend | Route Handlers + zod + Resend + React Email + Prisma/Supabase |
-| Calidad | ESLint, Prettier, tsc, Vitest, Playwright, axe, Lighthouse/CWV |
-| Gestor | pnpm ≥10 |
+| Capa             | Tecnología                                                                                               |
+| ---------------- | -------------------------------------------------------------------------------------------------------- |
+| Framework        | Next.js 16 (App Router, Turbopack), React 19, TypeScript estricto                                        |
+| Estilos          | Tailwind CSS v4 (`@theme`) + `src/styles/site.css` (portado, clases `ak-*`) + tokens `design-tokens.css` |
+| Fuentes / iconos | `next/font` (Inter, JetBrains Mono) · `lucide-react`                                                     |
+| Contenido        | Módulos TS tipados (`src/lib/content/`) + blog en MDX (`content/blog/`)                                  |
+| Backend          | Route Handlers + zod + Resend + React Email + Prisma/Supabase                                            |
+| Calidad          | ESLint, Prettier, tsc, Vitest, Playwright, axe, Lighthouse/CWV                                           |
+| Gestor           | pnpm ≥10                                                                                                 |
 
 ## Árbol de rutas (App Router)
 
@@ -92,12 +92,12 @@ Subscriber  { id, email (unique), confirmed, createdAt }
 
 ## Mapa prototipo → producción
 
-| Prototipo (zip) | Destino |
-|---|---|
-| `colors_and_type.css` | `src/styles/design-tokens.css` |
-| `site.css` | `src/styles/site.css` |
-| `lib/core.jsx` | `components/sections/*` + `components/ui/*` + `lib/hooks/*` |
-| `lib/data.jsx` | `src/lib/content/*.ts` |
-| `lib/home.jsx`, `about.jsx`, ... | páginas `app/**` correspondientes |
-| `lib/tweaks-panel.jsx` | descartado (dev-only opcional) |
-| `*.html` | rutas App Router |
+| Prototipo (zip)                  | Destino                                                     |
+| -------------------------------- | ----------------------------------------------------------- |
+| `colors_and_type.css`            | `src/styles/design-tokens.css`                              |
+| `site.css`                       | `src/styles/site.css`                                       |
+| `lib/core.jsx`                   | `components/sections/*` + `components/ui/*` + `lib/hooks/*` |
+| `lib/data.jsx`                   | `src/lib/content/*.ts`                                      |
+| `lib/home.jsx`, `about.jsx`, ... | páginas `app/**` correspondientes                           |
+| `lib/tweaks-panel.jsx`           | descartado (dev-only opcional)                              |
+| `*.html`                         | rutas App Router                                            |

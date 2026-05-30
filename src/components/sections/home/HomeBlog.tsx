@@ -10,7 +10,12 @@ export function HomeBlog() {
     <section className="ak-section" id="blog">
       <div
         className="ak-section-head"
-        style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 28 }}
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          marginBottom: 28,
+        }}
       >
         <div>
           <Eyebrow>blog · MDX</Eyebrow>

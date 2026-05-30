@@ -65,11 +65,7 @@ function Block({ block }: { block: CaseBlock }) {
   }
 }
 
-export default async function ProjectCasePage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ProjectCasePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const p = getProject(slug);
   if (!p) notFound();

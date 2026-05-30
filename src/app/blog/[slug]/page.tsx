@@ -80,7 +80,9 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               />
             ) : (
               <>
-                <p>{p.desc ?? "Entradilla del artículo: una o dos frases que resumen el contenido."}</p>
+                <p>
+                  {p.desc ?? "Entradilla del artículo: una o dos frases que resumen el contenido."}
+                </p>
                 <p>
                   Contenido marcador para «{p.title}». Este artículo se redactará en MDX en
                   <code> content/blog/{p.id}.mdx</code>.
@@ -107,7 +109,11 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                 <h3 className="ak-postcard-title">{post.title}</h3>
                 <div className="ak-postcard-foot">
                   <span className="ak-postcard-rt">{post.read}</span>
-                  <Icon name="arrow-up-right" size={16} style={{ color: "hsl(var(--text-link))" }} />
+                  <Icon
+                    name="arrow-up-right"
+                    size={16}
+                    style={{ color: "hsl(var(--text-link))" }}
+                  />
                 </div>
               </div>
             </Link>

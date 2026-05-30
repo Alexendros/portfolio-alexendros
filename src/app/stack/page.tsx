@@ -15,8 +15,8 @@ export default function StackPage() {
         <Eyebrow>arquitectura</Eyebrow>
         <h1 className="ak-page-title">Mapa de tecnologías</h1>
         <p className="ak-page-lead">
-          Mi stack agrupado por capas. Explora el grafo: arrastra, haz zoom y pulsa cualquier
-          nodo para ver el detalle.
+          Mi stack agrupado por capas. Explora el grafo: arrastra, haz zoom y pulsa cualquier nodo
+          para ver el detalle.
         </p>
       </section>
       <section className="ak-section" style={{ paddingTop: 0 }}>

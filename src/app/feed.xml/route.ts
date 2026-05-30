@@ -1,8 +1,18 @@
 import { POSTS, SITE } from "@/lib/content";
 
 const MONTHS: Record<string, number> = {
-  Ene: 0, Feb: 1, Mar: 2, Abr: 3, May: 4, Jun: 5,
-  Jul: 6, Ago: 7, Sep: 8, Oct: 9, Nov: 10, Dic: 11,
+  Ene: 0,
+  Feb: 1,
+  Mar: 2,
+  Abr: 3,
+  May: 4,
+  Jun: 5,
+  Jul: 6,
+  Ago: 7,
+  Sep: 8,
+  Oct: 9,
+  Nov: 10,
+  Dic: 11,
 };
 
 function parseDate(d: string): Date | null {

@@ -1,6 +1,13 @@
 "use client";
 
-import { useLayoutEffect, useMemo, useRef, useState, type PointerEvent, type WheelEvent } from "react";
+import {
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent,
+  type WheelEvent,
+} from "react";
 import { STACK_CATS, STACK_DETAIL } from "@/lib/content";
 import type { StackDetail } from "@/lib/content";
 import { Icon } from "@/components/ui/Icon";
@@ -109,7 +116,10 @@ export function StackGraph() {
   };
   const onMove = (e: PointerEvent) => {
     if (!drag.current) return;
-    setPan({ x: drag.current.px + (e.clientX - drag.current.x), y: drag.current.py + (e.clientY - drag.current.y) });
+    setPan({
+      x: drag.current.px + (e.clientX - drag.current.x),
+      y: drag.current.py + (e.clientY - drag.current.y),
+    });
   };
   const onUp = () => {
     drag.current = null;
@@ -138,20 +148,31 @@ export function StackGraph() {
         onPointerLeave={onUp}
       >
         <span className="ak-graph-hint">arrastra · scroll para zoom · clic en un nodo</span>
-        <div className="ak-graph-inner" style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})` }}>
+        <div
+          className="ak-graph-inner"
+          style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})` }}
+        >
           <svg className="ak-graph-svg" width={W} height={H}>
             {edges.map((e, i) => {
               const a = node(e.from)!;
               const b = node(e.to)!;
               const isHot = active === e.cat;
               return (
-                <line key={i} className={`ak-edge ${isHot ? "hot" : ""}`.trim()} x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
+                <line
+                  key={i}
+                  className={`ak-edge ${isHot ? "hot" : ""}`.trim()}
+                  x1={a.x}
+                  y1={a.y}
+                  x2={b.x}
+                  y2={b.y}
+                />
               );
             })}
           </svg>
           {nodes.map((n) => {
             const dim = active && n.type !== "center" && n.cat !== active && n.id !== active;
-            const cls = `ak-node ak-node-${n.type} ${sel === n.id ? "sel" : ""} ${dim ? "dim" : ""}`.trim();
+            const cls =
+              `ak-node ak-node-${n.type} ${sel === n.id ? "sel" : ""} ${dim ? "dim" : ""}`.trim();
             return (
               <div
                 key={n.id}
@@ -225,7 +246,10 @@ export function StackGraph() {
           ))}
         </div>
         <div className="ak-panel">
-          <div className="ak-detail-h">{"// detalle · "}{sel}</div>
+          <div className="ak-detail-h">
+            {"// detalle · "}
+            {sel}
+          </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 14 }}>
             <div className="ak-detail-row">
               <span className="lbl">Nivel</span>

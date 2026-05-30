@@ -1,0 +1,9 @@
+node_modules
+.next
+out
+pnpm-lock.yaml
+next-env.d.ts
+# CSS portado del bundle Arctic Ocean — se preserva tal cual (fidelidad pixel-perfect)
+src/styles/site.css
+src/styles/design-tokens.css
+content

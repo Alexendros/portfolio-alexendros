@@ -1,4 +1,14 @@
-import { Body, Container, Head, Heading, Hr, Html, Preview, Section, Text } from "@react-email/components";
+import {
+  Body,
+  Container,
+  Head,
+  Heading,
+  Hr,
+  Html,
+  Preview,
+  Section,
+  Text,
+} from "@react-email/components";
 
 interface LeadNotificationProps {
   name: string;
@@ -14,7 +24,9 @@ export function LeadNotification({ name, email, type, message }: LeadNotificatio
       <Preview>Nuevo contacto de {name}</Preview>
       <Body style={{ backgroundColor: "#fafafa", fontFamily: "Inter, Arial, sans-serif" }}>
         <Container style={{ padding: "24px", maxWidth: "560px" }}>
-          <Heading style={{ fontSize: "20px", color: "#1a2332" }}>Nuevo mensaje de contacto</Heading>
+          <Heading style={{ fontSize: "20px", color: "#1a2332" }}>
+            Nuevo mensaje de contacto
+          </Heading>
           <Section>
             <Text style={{ margin: "4px 0", color: "#4a5568" }}>
               <strong>Nombre:</strong> {name}

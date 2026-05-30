@@ -26,22 +26,41 @@ export function Testimonials() {
       <div className="ak-container-inner">
         <div
           className="ak-section-head"
-          style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 28 }}
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            marginBottom: 28,
+          }}
         >
           <div>
             <Eyebrow>confían en mí</Eyebrow>
             <h2 className="ak-h2">Testimonios</h2>
           </div>
           <div className="ak-tcar-nav">
-            <button className="ak-tcar-btn" onClick={() => go(i - 1)} disabled={i === 0} aria-label="Anterior">
+            <button
+              className="ak-tcar-btn"
+              onClick={() => go(i - 1)}
+              disabled={i === 0}
+              aria-label="Anterior"
+            >
               <Icon name="chevron-left" size={18} />
             </button>
-            <button className="ak-tcar-btn" onClick={() => go(i + 1)} disabled={i === maxI} aria-label="Siguiente">
+            <button
+              className="ak-tcar-btn"
+              onClick={() => go(i + 1)}
+              disabled={i === maxI}
+              aria-label="Siguiente"
+            >
               <Icon name="chevron-right" size={18} />
             </button>
           </div>
         </div>
-        <div className="ak-tcar" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+        <div
+          className="ak-tcar"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
           <div className="ak-tcar-viewport">
             <div
               className="ak-tcar-track"

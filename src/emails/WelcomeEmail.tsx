@@ -7,7 +7,9 @@ export function WelcomeEmail() {
       <Preview>Gracias por suscribirte</Preview>
       <Body style={{ backgroundColor: "#fafafa", fontFamily: "Inter, Arial, sans-serif" }}>
         <Container style={{ padding: "24px", maxWidth: "560px" }}>
-          <Heading style={{ fontSize: "20px", color: "#1a2332" }}>¡Gracias por suscribirte!</Heading>
+          <Heading style={{ fontSize: "20px", color: "#1a2332" }}>
+            ¡Gracias por suscribirte!
+          </Heading>
           <Text style={{ color: "#4a5568" }}>
             Recibirás mis notas sobre platform engineering y cloud-native, sin spam. Puedes darte de
             baja en cualquier momento.

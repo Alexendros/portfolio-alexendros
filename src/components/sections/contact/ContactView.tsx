@@ -132,7 +132,14 @@ function MultiStepForm() {
             onClick={() => {
               setSent(false);
               setStep(0);
-              setData({ name: "", email: "", type: "Web App", message: "", consent: false, website: "" });
+              setData({
+                name: "",
+                email: "",
+                type: "Web App",
+                message: "",
+                consent: false,
+                website: "",
+              });
             }}
           >
             Enviar otro
@@ -148,7 +155,9 @@ function MultiStepForm() {
         {STEPS.map((s, i) => (
           <Fragment key={s}>
             <div className={`ak-step ${i === step ? "on" : ""} ${i < step ? "done" : ""}`.trim()}>
-              <span className="ak-step-dot">{i < step ? <Icon name="check" size={14} /> : i + 1}</span>
+              <span className="ak-step-dot">
+                {i < step ? <Icon name="check" size={14} /> : i + 1}
+              </span>
               <span className="ak-step-lbl">{s}</span>
             </div>
             {i < STEPS.length - 1 && <span className="ak-step-line" />}
@@ -174,8 +183,21 @@ function MultiStepForm() {
       <div className="ak-fields">
         {step === 0 && (
           <div className="ak-field-row">
-            <Field label="Nombre" value={data.name} onChange={(v) => set("name", v)} placeholder="Tu nombre" error={errors.name} />
-            <Field label="Email" type="email" value={data.email} onChange={(v) => set("email", v)} placeholder="tu@email.com" error={errors.email} />
+            <Field
+              label="Nombre"
+              value={data.name}
+              onChange={(v) => set("name", v)}
+              placeholder="Tu nombre"
+              error={errors.name}
+            />
+            <Field
+              label="Email"
+              type="email"
+              value={data.email}
+              onChange={(v) => set("email", v)}
+              placeholder="tu@email.com"
+              error={errors.email}
+            />
           </div>
         )}
         {step === 1 && (
@@ -184,7 +206,12 @@ function MultiStepForm() {
               <label className="ak-label">Tipo de proyecto</label>
               <div className="ak-chips" style={{ marginLeft: 0 }}>
                 {PROJ_TYPES.map((t) => (
-                  <button key={t} type="button" className={`ak-chip ${data.type === t ? "on" : ""}`.trim()} onClick={() => set("type", t)}>
+                  <button
+                    key={t}
+                    type="button"
+                    className={`ak-chip ${data.type === t ? "on" : ""}`.trim()}
+                    onClick={() => set("type", t)}
+                  >
                     {t}
                   </button>
                 ))}
@@ -230,7 +257,11 @@ function MultiStepForm() {
               </div>
             </div>
             <label className="ak-consent">
-              <input type="checkbox" checked={data.consent} onChange={(e) => set("consent", e.target.checked)} />
+              <input
+                type="checkbox"
+                checked={data.consent}
+                onChange={(e) => set("consent", e.target.checked)}
+              />
               Acepto la política de privacidad y el tratamiento de mis datos.
             </label>
             {errors.consent && (
@@ -273,8 +304,18 @@ function MultiStepForm() {
 }
 
 const MONTHS = [
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+  "Enero",
+  "Febrero",
+  "Marzo",
+  "Abril",
+  "Mayo",
+  "Junio",
+  "Julio",
+  "Agosto",
+  "Septiembre",
+  "Octubre",
+  "Noviembre",
+  "Diciembre",
 ];
 
 function Calendar() {

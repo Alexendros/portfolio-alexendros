@@ -34,7 +34,14 @@ function ProjTile({ p }: { p: Project }) {
         </div>
       </div>
       <div className="ak-tile-body">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+            gap: 8,
+          }}
+        >
           <h3 className="ak-tile-title">{p.title}</h3>
           <span className="mono" style={{ color: "hsl(var(--text-muted))", fontSize: 11 }}>
             {p.year}
@@ -78,8 +85,8 @@ export function ProjectsView() {
         <Eyebrow>portafolio · {PROJECTS.length}+ proyectos</Eyebrow>
         <h1 className="ak-page-title">Proyectos</h1>
         <p className="ak-page-lead">
-          Una selección de lo que he construido: plataformas internas, infraestructura
-          cloud-native, APIs de alta disponibilidad y proyectos open source.
+          Una selección de lo que he construido: plataformas internas, infraestructura cloud-native,
+          APIs de alta disponibilidad y proyectos open source.
         </p>
       </section>
       <section className="ak-section" style={{ paddingTop: 14 }}>
@@ -95,7 +102,11 @@ export function ProjectsView() {
           </div>
           <div className="ak-chips">
             {PROJ_CATS.map((c) => (
-              <button key={c} className={`ak-chip ${c === cat ? "on" : ""}`.trim()} onClick={() => setCat(c)}>
+              <button
+                key={c}
+                className={`ak-chip ${c === cat ? "on" : ""}`.trim()}
+                onClick={() => setCat(c)}
+              >
                 {c}
               </button>
             ))}

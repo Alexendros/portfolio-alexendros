@@ -9,8 +9,7 @@ import { useEffect } from "react";
  */
 export function useReveal(): void {
   useEffect(() => {
-    const all = () =>
-      Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const all = () => Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       all().forEach((e) => e.classList.add("is-revealed"));
@@ -18,14 +17,12 @@ export function useReveal(): void {
     }
 
     const reveal = () => {
-      document
-        .querySelectorAll<HTMLElement>("[data-reveal]:not(.is-revealed)")
-        .forEach((e) => {
-          const r = e.getBoundingClientRect();
-          if (r.top < window.innerHeight - 40 && r.bottom > 0) {
-            e.classList.add("is-revealed");
-          }
-        });
+      document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-revealed)").forEach((e) => {
+        const r = e.getBoundingClientRect();
+        if (r.top < window.innerHeight - 40 && r.bottom > 0) {
+          e.classList.add("is-revealed");
+        }
+      });
     };
 
     reveal();

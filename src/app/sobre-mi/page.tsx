@@ -20,11 +20,10 @@ function AboutIntro() {
         Nueve años construyendo plataformas que los equipos quieren usar
       </h1>
       <p className="ak-page-lead" data-reveal data-reveal-delay="2">
-        Soy Alejandro Vargas, platform engineer y fullstack developer con 9 años de
-        experiencia. Me especializo en infraestructura cloud-native, Kubernetes y
-        plataformas internas que multiplican la productividad de los equipos de
-        ingeniería. Creo que la mejor infraestructura es la que el equipo de producto no
-        tiene que pensar.
+        Soy Alejandro Vargas, platform engineer y fullstack developer con 9 años de experiencia. Me
+        especializo en infraestructura cloud-native, Kubernetes y plataformas internas que
+        multiplican la productividad de los equipos de ingeniería. Creo que la mejor infraestructura
+        es la que el equipo de producto no tiene que pensar.
       </p>
       <div className="ak-about-cta" data-reveal data-reveal-delay="2">
         <Button variant="primary" href="#">
@@ -99,7 +98,12 @@ function Principles() {
       <SectionHead eyebrow="cómo trabajo" title="Principios" />
       <div className="ak-principles-3">
         {PRINCIPLES.map((p, i) => (
-          <div key={p.title} className="ak-principle" data-reveal data-reveal-delay={String((i % 3) + 1)}>
+          <div
+            key={p.title}
+            className="ak-principle"
+            data-reveal
+            data-reveal-delay={String((i % 3) + 1)}
+          >
             <span className="ak-principle-ic">
               <Icon name={p.icon as IconName} size={20} />
             </span>

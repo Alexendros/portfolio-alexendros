@@ -3,7 +3,15 @@ import { PROJECTS, POSTS, SITE } from "@/lib/content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = SITE.url;
-  const staticRoutes = ["", "/sobre-mi", "/proyectos", "/stack", "/blog", "/servicios", "/contacto"];
+  const staticRoutes = [
+    "",
+    "/sobre-mi",
+    "/proyectos",
+    "/stack",
+    "/blog",
+    "/servicios",
+    "/contacto",
+  ];
 
   const pages: MetadataRoute.Sitemap = staticRoutes.map((r) => ({
     url: `${base}${r}`,

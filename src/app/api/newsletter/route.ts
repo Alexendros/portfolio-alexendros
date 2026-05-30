@@ -57,7 +57,9 @@ export async function POST(req: Request) {
   }
 
   if (!prisma && !resend) {
-    console.warn("[newsletter] sin DATABASE_URL ni RESEND_API_KEY: suscripción recibida pero no persistida.");
+    console.warn(
+      "[newsletter] sin DATABASE_URL ni RESEND_API_KEY: suscripción recibida pero no persistida.",
+    );
   }
 
   return NextResponse.json({ ok: true });

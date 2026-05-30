@@ -1,12 +1,6 @@
 import type { ReactNode } from "react";
 
-export function Eyebrow({
-  children,
-  comment = true,
-}: {
-  children: ReactNode;
-  comment?: boolean;
-}) {
+export function Eyebrow({ children, comment = true }: { children: ReactNode; comment?: boolean }) {
   return (
     <span className="ak-eyebrow">
       {comment && <span className="ak-eyebrow-c">{"// "}</span>}

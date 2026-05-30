@@ -4,10 +4,18 @@ import { useEffect, useRef, useState } from "react";
 
 const TERMINAL_LINES = [
   { t: "cat ~/whoami.json" },
-  { html: '<span class="ak-str">"role"</span>: <span class="ak-str">"Platform Engineer & Fullstack Senior"</span>,' },
-  { html: '<span class="ak-str">"focus"</span>: [<span class="ak-str">"Platform Eng"</span>, <span class="ak-str">"Cloud-Native"</span>, <span class="ak-str">"Fullstack"</span>],' },
-  { html: '<span class="ak-str">"stack"</span>: [<span class="ak-str">"Go"</span>, <span class="ak-str">"K8s"</span>, <span class="ak-str">"Terraform"</span>, <span class="ak-str">"React"</span>], <span class="ak-cm">// y más</span>' },
-  { html: '<span class="ak-str">"open_to_work"</span>: <span class="ak-kw">true</span> <span class="ak-cm">// disponible Q3 2026</span>' },
+  {
+    html: '<span class="ak-str">"role"</span>: <span class="ak-str">"Platform Engineer & Fullstack Senior"</span>,',
+  },
+  {
+    html: '<span class="ak-str">"focus"</span>: [<span class="ak-str">"Platform Eng"</span>, <span class="ak-str">"Cloud-Native"</span>, <span class="ak-str">"Fullstack"</span>],',
+  },
+  {
+    html: '<span class="ak-str">"stack"</span>: [<span class="ak-str">"Go"</span>, <span class="ak-str">"K8s"</span>, <span class="ak-str">"Terraform"</span>, <span class="ak-str">"React"</span>], <span class="ak-cm">// y más</span>',
+  },
+  {
+    html: '<span class="ak-str">"open_to_work"</span>: <span class="ak-kw">true</span> <span class="ak-cm">// disponible Q3 2026</span>',
+  },
 ] as const;
 
 export function Terminal({ title = "~/whoami.sh" }: { title?: string }) {
