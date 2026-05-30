@@ -18,29 +18,29 @@
 | 0.1 | Scaffold Next.js 16 (TS, App Router, Tailwind v4, ESLint, src/) | hecho | — | todo |
 | 0.2 | Instalar deps + build scripts nativos (sharp, oxide) | hecho | 0.1 | build/dev |
 | 0.3 | Build baseline verde (`pnpm build`) | hecho | 0.2 | F1 |
-| 0.4 | `ROADMAP.md` + `ARCHITECTURE.md` (esqueleto) | en curso | — | seguimiento |
-| 0.5 | `git init` (main) + `.gitignore` + commit baseline | pendiente | 0.4 | 0.6 |
-| 0.6 | Crear repo privado GitHub + push (`alexendros/portfolio-alexendros`) | pendiente | 0.5 | CI/PR |
+| 0.4 | `ROADMAP.md` + `ARCHITECTURE.md` (esqueleto) | hecho | — | seguimiento |
+| 0.5 | `git init` (main) + `.gitignore` + commit baseline | hecho | 0.4 | 0.6 |
+| 0.6 | Crear repo privado GitHub + push (`Alexendros/portfolio-alexendros`) | hecho | 0.5 | CI/PR |
 | 0.7 | Scaffolding MCEOD L2 `.claude/` (`claude-deploy.sh prepare`) | pendiente | 0.5 | F6 consolidate |
-| 0.8 | Portar tokens (`colors_and_type.css`) + `site.css` (67KB) a la app | pendiente | 0.3 | F1 |
-| 0.9 | Configurar `next/font` (Inter, JetBrains Mono) + `lucide-react` | pendiente | 0.8 | F1 |
+| 0.8 | Portar tokens (`colors_and_type.css`) + `site.css` (67KB) a la app | hecho | 0.3 | F1 |
+| 0.9 | Configurar `next/font` (Inter, JetBrains Mono) + `lucide-react` | hecho | 0.8 | F1 |
 | 0.10 | Toolchain calidad: Prettier, Vitest, Playwright, scripts npm | pendiente | 0.2 | valoradores |
 
 ## F1 · Sistema de diseño y layout global
 
 | # | Tarea | Estado | Bloquea | Desbloquea |
 |---|---|---|---|---|
-| 1.1 | `app/layout.tsx`: tema no-flash (cookie + script), fuentes | pendiente | 0.8,0.9 | todas las páginas |
-| 1.2 | Primitivos UI: `Button`, `Icon`, `Eyebrow`, `SectionHead` | pendiente | 1.1 | F2,F3 |
-| 1.3 | `Header` (sticky, scroll, nav móvil) + `Footer` (newsletter) | pendiente | 1.2 | F2,F3 |
-| 1.4 | Hooks: `useReveal`, `useTheme` (cliente) | pendiente | 1.1 | islas |
-| 1.5 | Módulos de contenido tipados (`lib/content/*.ts` desde `data.jsx`) | pendiente | — | F2,F3 |
+| 1.1 | `app/layout.tsx`: tema no-flash (script bloqueante), fuentes, shell | hecho | 0.8,0.9 | todas las páginas |
+| 1.2 | Primitivos UI: `Button`, `Icon`, `Eyebrow`, `SectionHead` | hecho | 1.1 | F2,F3 |
+| 1.3 | `Header` (sticky, scroll, nav móvil) + `Footer` (newsletter) | hecho | 1.2 | F2,F3 |
+| 1.4 | Hooks: `useReveal`, `useTheme` (cliente, `useSyncExternalStore`) | hecho | 1.1 | islas |
+| 1.5 | Módulos de contenido tipados (`lib/content/*.ts` desde `data.jsx`) | hecho | — | F2,F3 |
 
 ## F2 · Páginas estáticas
 
 | # | Tarea | Estado | Bloquea | Desbloquea |
 |---|---|---|---|---|
-| 2.1 | `/` Home (hero, terminal, marquee, zigzag, servicios, blog, testimonios, CTA) | pendiente | F1 | — |
+| 2.1 | `/` Home (hero, terminal, marquee, zigzag, servicios, blog, testimonios, CTA) | hecho | F1 | — |
 | 2.2 | `/sobre-mi` (timeline, principios, stack diario) | pendiente | F1 | — |
 | 2.3 | `/servicios` (tiers, toggle, comparativa, FAQ) | pendiente | F1 | — |
 

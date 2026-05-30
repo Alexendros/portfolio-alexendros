@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/sections/Header";
+import { Footer } from "@/components/sections/Footer";
+import { RevealController } from "@/components/providers/RevealController";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -53,7 +56,14 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <div className="ak-app">
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </div>
+        <RevealController />
+      </body>
     </html>
   );
 }
