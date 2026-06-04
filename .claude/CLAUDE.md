@@ -13,7 +13,7 @@ Degradación null-safe SIN credenciales: `prisma`/`resend` son `… | null`; tod
 
 ## Agents / Skills locales
 
-Ninguno local (decisión: mínimo + herencia). El kit (code-reviewer, repo-developer, repo-launcher, ci-runner; skills dev-_/app-_) se hereda lanzando `claude` desde `~/Repositorios`.
+Ninguno local (decisión: mínimo + herencia). El kit (code-reviewer, repo-developer, repo-launcher, ci-runner; skills `dev-*`/`app-*`) se hereda lanzando `claude` desde `~/Repositorios`.
 
 ## Plugins / MCP
 
