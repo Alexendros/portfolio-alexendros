@@ -35,6 +35,12 @@ test("el formulario de contacto se envía", async ({ page }) => {
   await expect(page.getByText(/Mensaje enviado/)).toBeVisible();
 });
 
+test("el escaparate renderiza proyectos destacados y compra directa", async ({ page }) => {
+  await page.goto("/escaparate");
+  await expect(page.getByRole("heading", { name: "Escaparate", level: 1 })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Pagar ahora/ }).first()).toBeVisible();
+});
+
 test("la home no tiene violaciones de accesibilidad críticas", async ({ page }) => {
   await page.goto("/");
   const results = await new AxeBuilder({ page }).analyze();

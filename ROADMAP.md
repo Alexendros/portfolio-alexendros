@@ -103,6 +103,22 @@
 | 8.1 | `deploy.yml` (workflow_run tras CI) + `vercel.json` + `.env.example` | hecho     | 6.2                        | 8.2        |
 | 8.2 | Activar despliegue real (secretos `VERCEL_TOKEN`/`ORG`/`PROJECT`)    | bloqueado | proyecto Vercel + secretos | —          |
 
+## F9 · Escaparate (página showcase) + deploy en vivo
+
+| #   | Tarea                                                                       | Estado   | Bloquea               | Desbloquea |
+| --- | --------------------------------------------------------------------------- | -------- | --------------------- | ---------- |
+| 9.1 | `/escaparate`: proyectos featured + items comprables (Stripe) + nav/sitemap | hecho    | F3,7.4                | —          |
+| 9.2 | Isla `PurchaseCard` extraída y reutilizada en `/servicios` y `/escaparate`  | hecho    | 9.1                   | —          |
+| 9.3 | Endurecer `ci.yml`: `concurrency` cancel-in-progress + `timeout-minutes`    | hecho    | 6.2                   | —          |
+| 9.4 | Provisionar Supabase (instancia libre) + `DATABASE_URL` + migración Prisma  | en curso | Supabase (MCP) + env  | 4.1        |
+| 9.5 | Deploy producción Vercel (MCP) + dominio `alexendros.dev` (9,99 $/año)      | en curso | proyecto Vercel + env | 8.2        |
+
+> Nota build (sandbox): `pnpm build` (static export) falla en el contenedor de trabajo con
+> `useContext` null en `/` y en `/_global-error` (página del framework), con Turbopack **y** webpack,
+> tras reinstalación limpia. La CI de GitHub (mismo Node 22, `react@19.2.4`/`next@16.2.6`) compila el
+> mismo código en **verde**, así que la CI/Vercel son la fuente de verdad del build. `/escaparate`
+> sirve 200 en dev y pasa format/lint/typecheck/unit.
+
 ---
 
 ## Bloqueos activos

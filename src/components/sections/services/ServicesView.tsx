@@ -1,65 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { COMPARISON, FAQ, TIERS, PURCHASABLES, formatPrice } from "@/lib/content";
-import type { Tier, PurchasableItem } from "@/lib/content";
+import { COMPARISON, FAQ, TIERS, PURCHASABLES } from "@/lib/content";
+import type { Tier } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Eyebrow, SectionHead } from "@/components/ui/SectionHead";
+import { PurchaseCard } from "@/components/sections/checkout/PurchaseCard";
 
 type Mode = "proyecto" | "retainer";
-
-function AddonCard({ item }: { item: PurchasableItem }) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  async function buy() {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ item: item.id }),
-      });
-      const body = (await res.json().catch(() => null)) as { url?: string; error?: string } | null;
-      if (res.ok && body?.url) {
-        window.location.href = body.url;
-        return; // redirección en curso
-      }
-      setError(body?.error ?? "No se pudo iniciar el pago. Inténtalo de nuevo.");
-    } catch {
-      setError("Error de red. Inténtalo de nuevo.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  return (
-    <div className="ak-tier">
-      <div className="ak-tier-name">{item.name}</div>
-      <div className="ak-tier-price">{formatPrice(item.amount, item.currency)}</div>
-      <p className="ak-principle-body" style={{ margin: "0 0 16px", flex: 1 }}>
-        {item.desc}
-      </p>
-      <Button
-        variant="secondary"
-        onClick={buy}
-        disabled={loading}
-        style={{ width: "100%", justifyContent: "center" }}
-      >
-        <Icon name="external-link" size={15} style={{ marginRight: 7 }} />
-        {loading ? "Redirigiendo…" : "Pagar ahora"}
-      </Button>
-      {error && (
-        <span className="ak-err-msg" style={{ marginTop: 10 }}>
-          <Icon name="alert-circle" size={13} />
-          {error}
-        </span>
-      )}
-    </div>
-  );
-}
 
 function AddonsSection() {
   return (
@@ -67,7 +16,7 @@ function AddonsSection() {
       <SectionHead eyebrow="extras" title="Servicios puntuales" />
       <div className="ak-pricing">
         {PURCHASABLES.map((item) => (
-          <AddonCard key={item.id} item={item} />
+          <PurchaseCard key={item.id} item={item} />
         ))}
       </div>
     </section>
