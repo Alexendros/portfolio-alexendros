@@ -10,9 +10,15 @@ on:
 env:
   RUNNER: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
 
+# Cancela ejecuciones en curso de la misma rama cuando llega un push nuevo.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -30,6 +36,7 @@ jobs:
   e2e:
     runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     needs: quality
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
