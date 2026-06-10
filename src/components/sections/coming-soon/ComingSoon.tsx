@@ -43,9 +43,6 @@ export function ComingSoon() {
         <a aria-label="LinkedIn" href={SITE.socials.linkedin}>
           <Icon name="linkedin" size={18} />
         </a>
-        <a aria-label="X" href={SITE.socials.twitter}>
-          <Icon name="twitter" size={18} />
-        </a>
         <a aria-label="Email" href={`mailto:${SITE.email}`}>
           <Icon name="mail" size={18} />
         </a>
