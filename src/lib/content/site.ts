@@ -8,8 +8,7 @@ export const SITE = {
   email: "contacto@alexendros.dev",
   socials: {
     github: "https://github.com/Alexendros",
-    // TODO: confirmar la URL real de LinkedIn (placeholder).
-    linkedin: "https://www.linkedin.com/in/alexendros",
+    linkedin: "https://www.linkedin.com/in/alejandro-d-a-024391384",
   },
 } as const;
 
