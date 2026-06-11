@@ -3,13 +3,12 @@ import type { NavLink } from "./types";
 export const SITE = {
   name: "Alejandro Domingo Agustí",
   role: "Software & Platform Engineer",
-  domain: "alexendros.pro",
-  url: "https://alexendros.pro",
-  email: "contacto@alexendros.pro",
+  domain: "alexendros.dev",
+  url: "https://alexendros.dev",
+  email: "contacto@alexendros.dev",
   socials: {
     github: "https://github.com/Alexendros",
-    // TODO: confirmar la URL real de LinkedIn (placeholder).
-    linkedin: "https://www.linkedin.com/in/alexendros",
+    linkedin: "https://www.linkedin.com/in/alejandro-d-a-024391384",
   },
 } as const;
 

@@ -114,8 +114,9 @@
 | 9.2 | Isla `PurchaseCard` extraída y reutilizada en `/servicios` y `/escaparate`  | hecho    | 9.1                   | —          |
 | 9.3 | Endurecer `ci.yml`: `concurrency` cancel-in-progress + `timeout-minutes`    | hecho    | 6.2                   | —          |
 | 9.4 | Provisionar Supabase (instancia libre) + `DATABASE_URL` + migración Prisma  | hecho    | Supabase (MCP) + env  | 4.1        |
-| 9.5 | Deploy producción Vercel (MCP) + dominio `alexendros.dev` (9,99 $/año)      | en curso | proyecto Vercel + env | 8.2        |
-| 9.6 | Landing "en construcción" `/proximamente` + split preview/prod              | hecho    | 9.1                   | 9.5        |
+| 9.5 | Deploy producción Vercel (MCP) + dominio `alexendros.dev`                   | en curso | proyecto Vercel + env | 8.2        |
+| 9.6 | Personalización de contenido: datos reales + 5 proyectos OSS de GitHub      | hecho    | 9.1                   | —          |
+| 9.7 | Landing "en construcción" `/proximamente` + split preview/prod              | hecho    | 9.1                   | 9.5        |
 
 > Holding page: producción muestra `/proximamente` por defecto (`VERCEL_ENV=production`, vía
 > `src/middleware.ts` + `isComingSoon` en `src/lib/flags.ts`); el portfolio completo vive en los
