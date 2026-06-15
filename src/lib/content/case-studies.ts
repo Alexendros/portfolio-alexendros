@@ -29,6 +29,45 @@ export interface CaseStudy {
 
 // Estudio curado para el proyecto destacado.
 const STUDIES: Record<string, CaseStudy> = {
+  nasve: {
+    summary:
+      "Gráficas Nasve es una imprenta familiar de Torrent con más de 40 años de oficio. Necesitaban una presencia digital a la altura: un sitio web donde enseñar su trabajo, una tienda y una forma sencilla de que sus clientes configuren un encargo y pidan presupuesto. Diseñé y desarrollé el sitio de principio a fin, con una identidad propia que transmite precisión y confianza.",
+    role: "Diseño y desarrollo web",
+    duration: "2026",
+    client: "Gráficas Nasve · Torrent (Valencia)",
+    sections: [
+      {
+        id: "contexto",
+        title: "Contexto",
+        blocks: [
+          {
+            type: "p",
+            text: "Un negocio con décadas de oficio y boca a boca, pero sin una web que estuviera a la altura. El reto: trasladar esa confianza al canal digital y, de paso, quitarles trabajo manual capturando los encargos de forma estructurada.",
+          },
+        ],
+      },
+      {
+        id: "solucion",
+        title: "La solución",
+        blocks: [
+          {
+            type: "p",
+            text: "Un sitio a medida con catálogo, tienda y un configurador de encargos que guía al cliente y termina en una solicitud de presupuesto clara. Diseño propio (no una plantilla), rápido y cuidado en cada detalle, desplegado para cargar al instante.",
+          },
+        ],
+      },
+      {
+        id: "resultado",
+        title: "Resultado",
+        blocks: [
+          {
+            type: "p",
+            text: "Gráficas Nasve pasa de no tener presencia digital seria a un sitio que vende su oficio y recoge encargos sin fricción. TODO: añadir métricas reales (visitas, presupuestos recibidos) y enlace al sitio en producción cuando proceda.",
+          },
+        ],
+      },
+    ],
+  },
   trenchpass: {
     summary:
       "TrenchPass centraliza, tras una única puerta de entrada, el acceso a los ~20 servicios externos que utilizo a diario (Notion, Stripe, GitHub, Vercel…). En vez de repartir credenciales por todas partes, cada acceso pasa por un solo lugar que lo autoriza, lo registra y lo vigila. Está construida en Rust para ser rápida y fiable, y es código abierto.",

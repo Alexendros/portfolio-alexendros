@@ -12,6 +12,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     h: 185,
     featured: true,
+    image: "/proyectos/alexendros-me.png",
     tags: ["Next.js", "React", "TypeScript", "Tailwind", "Vercel"],
     desc: "Sitio web para publicar ideas, rápido y respetuoso con la privacidad: sin rastreo ni cookies de terceros. Construido con Next.js y React, con tipografía propia y servido desde la red global de Vercel para que cargue al instante.",
     metrics: [
@@ -37,13 +38,29 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
+    id: "nasve",
+    title: "Gráficas Nasve — Web y tienda para imprenta",
+    category: "Web",
+    kind: "Web App",
+    year: "2026",
+    h: 210,
+    featured: true,
+    image: "/proyectos/nasve.png",
+    tags: ["Next.js", "React", "TypeScript", "E-commerce", "Vercel"],
+    desc: "Sitio web y tienda para Gráficas Nasve, imprenta familiar de Torrent desde 1982: catálogo, configurador de encargos y solicitud de presupuesto, con un diseño a medida que transmite oficio y confianza. Proyecto de cliente, de la idea al lanzamiento.",
+    metrics: [
+      { v: "Web + tienda", l: "diseño y desarrollo", acc: true },
+      { v: "Next.js", l: "React + TypeScript" },
+      { v: "2026", l: "proyecto de cliente" },
+    ],
+  },
+  {
     id: "plantillas",
     title: "Plantillas para Claude Code",
     category: "Developer Tooling",
     kind: "Open Source",
     year: "2026",
     h: 200,
-    featured: true,
     tags: ["Python", "Claude Code", "MCP", "GitHub Actions", "pre-commit"],
     desc: "Ecosistema de plantillas modulares `claude-init`-ready para construir agentes, skills, comandos, hooks, plugins, servidores MCP y repositorios GitHub profesionales. Cada módulo incluye plantilla, ejemplo funcional y validador automático con modo `--strict`.",
     metrics: [
