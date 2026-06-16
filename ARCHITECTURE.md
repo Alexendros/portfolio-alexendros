@@ -1,4 +1,4 @@
-# ARCHITECTURE — portfolio-alexendros
+# ARCHITECTURE — website-alexendrosdev
 
 > Mapeado vivo de la aplicación. Se amplía conforme se crean rutas y módulos.
 > Diseño origen: **Arctic Ocean** (Next.js + Tailwind v4 + shadcn/ui). Bundle prototipo: `~/Repositorios/portfolioalejandrovargas.zip`.

@@ -1,4 +1,4 @@
-# portfolio-alexendros
+# website-alexendrosdev
 
 Portfolio profesional de **Alejandro Domingo Agustí** (Alexendros), Software & Platform Engineer en Valencia — sitio de **alexendros.dev**. Construido con **Next.js 16** sobre el sistema de diseño **Arctic Ocean**. Migración fiel del prototipo HTML/CSS/JS de Claude Design a una aplicación real con backend propio.
 

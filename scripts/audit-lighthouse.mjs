@@ -12,11 +12,19 @@ import path from 'node:path';
 
 const require = createRequire(import.meta.url);
 
-// chrome-launcher es CJS → require con ruta absoluta al store pnpm
-const chromeLauncher = require('/home/alexendros/Repositorios/portfolio-alexendros/node_modules/.pnpm/chrome-launcher@1.2.1/node_modules/chrome-launcher/dist/index.js');
+// Raíz del repo: dos niveles arriba de este script (scripts/ → raíz). Rutas
+// relativas para que el audit sobreviva a renombrados de la carpeta del repo.
+const repoRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+
+// chrome-launcher es CJS → require con ruta al store pnpm
+const chromeLauncher = require(
+  path.join(repoRoot, 'node_modules/.pnpm/chrome-launcher@1.2.1/node_modules/chrome-launcher/dist/index.js'),
+);
 
 // lighthouse es ESM (type: "module") → import dinámico
-const { default: lighthouse } = await import('/home/alexendros/Repositorios/portfolio-alexendros/node_modules/lighthouse/core/index.js');
+const { default: lighthouse } = await import(
+  path.join(repoRoot, 'node_modules/lighthouse/core/index.js'),
+);
 
 const CHROME_PATH = '/home/alexendros/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome';
 const REPORTS_DIR = path.join(homedir(), 'auditoria-alexendros-dev', 'reports');

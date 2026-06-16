@@ -1,4 +1,4 @@
-# CLAUDE.md — portfolio-alexendros (overlay)
+# CLAUDE.md — website-alexendrosdev (overlay)
 
 > Extiende `~/.claude/CLAUDE.md` (canon L0). El CLAUDE.md RICO vive en la RAÍZ: `../CLAUDE.md` — consúltalo primero.
 
