@@ -7,7 +7,6 @@ import { RevealController } from "@/components/providers/RevealController";
 import { isComingSoon } from "@/lib/flags";
 import { JsonLd } from "@/components/JsonLd";
 import { makeWebSiteJsonLd, makePersonJsonLd } from "@/lib/seo/jsonld";
-import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -76,7 +75,6 @@ export default function RootLayout({
           {!holding && <Footer />}
         </div>
         <RevealController />
-        <Analytics />
       </body>
     </html>
   );
