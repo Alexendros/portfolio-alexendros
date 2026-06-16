@@ -1,4 +1,4 @@
-// Esquema de datos — Postgres (Supabase). Modelos para leads de contacto y suscriptores.
+// Esquema de datos — Postgres (Supabase). Modelos para leads, suscriptores, pedidos y CRM personal.
 
 generator client {
   provider = "prisma-client-js"
@@ -7,6 +7,8 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+// ─── Modelos existentes ────────────────────────────────────────────────────────
 
 model Lead {
   id          String   @id @default(cuid())
@@ -43,4 +45,216 @@ model Order {
   createdAt       DateTime @default(now())
 
   @@index([email])
+}
+
+// ─── Enums CRM ────────────────────────────────────────────────────────────────
+
+enum ContactType {
+  INDIVIDUAL
+  COMPANY
+}
+
+enum ContactStatus {
+  LEAD
+  PROSPECT
+  CLIENT
+  PARTNER
+  INACTIVE
+}
+
+enum ActivityType {
+  EMAIL
+  CALL
+  MEETING
+  NOTE
+  TASK
+  OTHER
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+// ─── Modelos CRM ─────────────────────────────────────────────────────────────
+
+model Contact {
+  id        String        @id @default(uuid()) @db.Uuid
+  type      ContactType   @default(INDIVIDUAL)
+  status    ContactStatus @default(LEAD)
+  firstName String
+  lastName  String?
+  email     String?
+  phone     String?
+  company   String?
+  position  String?
+  website   String?
+  notes     String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  deals      Deal[]
+  activities Activity[]
+  tasks      Task[]
+  invoices   Invoice[]
+
+  @@index([email])
+  @@index([status])
+}
+
+model Product {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  description String?
+  unitPrice   Decimal  @default(0) @db.Decimal(10, 2)
+  currency    String   @default("eur")
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  dealItems    DealItem[]
+  invoiceItems InvoiceItem[]
+}
+
+model PipelineStage {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  description String?
+  order       Int      @default(0)
+  color       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  deals Deal[]
+
+  @@unique([order])
+}
+
+model Deal {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String
+  value       Decimal  @default(0) @db.Decimal(10, 2)
+  currency    String   @default("eur")
+  probability Int      @default(0)
+  closedAt    DateTime?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  contactId String  @db.Uuid
+  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  stageId String?        @db.Uuid
+  stage   PipelineStage? @relation(fields: [stageId], references: [id], onDelete: SetNull)
+
+  items      DealItem[]
+  activities Activity[]
+  tasks      Task[]
+  invoices   Invoice[]
+
+  @@index([contactId])
+  @@index([stageId])
+}
+
+model DealItem {
+  id         String  @id @default(uuid()) @db.Uuid
+  quantity   Int     @default(1)
+  unitPrice  Decimal @default(0) @db.Decimal(10, 2)
+  totalPrice Decimal @default(0) @db.Decimal(10, 2)
+  notes      String?
+
+  dealId String @db.Uuid
+  deal   Deal   @relation(fields: [dealId], references: [id], onDelete: Cascade)
+
+  productId String?  @db.Uuid
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([dealId])
+}
+
+model Activity {
+  id          String       @id @default(uuid()) @db.Uuid
+  type        ActivityType @default(NOTE)
+  title       String
+  description String?
+  occurredAt  DateTime     @default(now())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  contactId String?  @db.Uuid
+  contact   Contact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
+
+  dealId String? @db.Uuid
+  deal   Deal?   @relation(fields: [dealId], references: [id], onDelete: SetNull)
+
+  @@index([contactId])
+  @@index([dealId])
+}
+
+model Task {
+  id          String       @id @default(uuid()) @db.Uuid
+  title       String
+  description String?
+  priority    TaskPriority @default(MEDIUM)
+  doneAt      DateTime?
+  dueAt       DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  contactId String?  @db.Uuid
+  contact   Contact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
+
+  dealId String? @db.Uuid
+  deal   Deal?   @relation(fields: [dealId], references: [id], onDelete: SetNull)
+
+  @@index([contactId])
+  @@index([dealId])
+  @@index([dueAt])
+}
+
+model Invoice {
+  id         String    @id @default(uuid()) @db.Uuid
+  number     String    @unique
+  status     String    @default("draft")
+  issuedAt   DateTime  @default(now())
+  dueAt      DateTime?
+  paidAt     DateTime?
+  subtotal   Decimal   @default(0) @db.Decimal(10, 2)
+  taxRate    Decimal   @default(0) @db.Decimal(5, 4)
+  taxAmount  Decimal   @default(0) @db.Decimal(10, 2)
+  total      Decimal   @default(0) @db.Decimal(10, 2)
+  currency   String    @default("eur")
+  notes      String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  contactId String?  @db.Uuid
+  contact   Contact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
+
+  dealId String? @db.Uuid
+  deal   Deal?   @relation(fields: [dealId], references: [id], onDelete: SetNull)
+
+  items InvoiceItem[]
+
+  @@index([contactId])
+  @@index([dealId])
+  @@index([status])
+}
+
+model InvoiceItem {
+  id         String  @id @default(uuid()) @db.Uuid
+  description String
+  quantity   Int     @default(1)
+  unitPrice  Decimal @default(0) @db.Decimal(10, 2)
+  totalPrice Decimal @default(0) @db.Decimal(10, 2)
+
+  invoiceId String  @db.Uuid
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  productId String?  @db.Uuid
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([invoiceId])
 }
