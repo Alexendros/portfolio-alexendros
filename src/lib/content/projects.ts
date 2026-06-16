@@ -16,6 +16,7 @@ export const PROJECTS: Project[] = [
     tags: ["Next.js", "React", "TypeScript", "Tailwind", "Vercel"],
     desc: "Sitio web para publicar ideas, rápido y respetuoso con la privacidad: sin rastreo ni cookies de terceros. Construido con Next.js y React, con tipografía propia y servido desde la red global de Vercel para que cargue al instante.",
     metaDescription: "Sitio personal en Next.js sin rastreo ni cookies. Rápido, privado y construido con React, Tailwind y Vercel.",
+    liveUrl: "https://alexendros.dev",
     metrics: [
       { v: "0", l: "rastreadores / cookies", acc: true },
       { v: "Next.js", l: "React + Tailwind" },

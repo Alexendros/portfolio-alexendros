@@ -100,16 +100,22 @@ export default async function ProjectCasePage({ params }: { params: Promise<{ sl
         </div>
         <h1 className="ak-detail-title">{p.title}</h1>
         <p className="ak-detail-sum">{study.summary}</p>
-        <div className="ak-detail-actions">
-          <Button variant="primary" href="#">
-            <Icon name="external-link" size={15} style={{ marginRight: 7 }} />
-            Ver en vivo
-          </Button>
-          <Button variant="secondary" href="#">
-            <Icon name="github" size={15} style={{ marginRight: 7 }} />
-            Repositorio
-          </Button>
-        </div>
+        {(p.liveUrl ?? p.repoUrl) && (
+          <div className="ak-detail-actions">
+            {p.liveUrl && (
+              <Button variant="primary" href={p.liveUrl} target="_blank" rel="noopener noreferrer">
+                <Icon name="external-link" size={15} style={{ marginRight: 7 }} />
+                Ver en vivo
+              </Button>
+            )}
+            {p.repoUrl && (
+              <Button variant="secondary" href={p.repoUrl} target="_blank" rel="noopener noreferrer">
+                <Icon name="github" size={15} style={{ marginRight: 7 }} />
+                Repositorio
+              </Button>
+            )}
+          </div>
+        )}
       </section>
 
       <div className="ak-ph ak-ph-grad ak-hero-shot" data-reveal>
