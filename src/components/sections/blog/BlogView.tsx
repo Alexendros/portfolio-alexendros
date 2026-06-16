@@ -122,6 +122,7 @@ export function BlogView() {
             {BLOG_TAGS.map((t) => (
               <button
                 key={t}
+                type="button"
                 className={`ak-chip ${t === tag ? "on" : ""}`.trim()}
                 onClick={() => {
                   setTag(t);
@@ -147,6 +148,7 @@ export function BlogView() {
           {[1, 2, 3].map((n) => (
             <button
               key={n}
+              type="button"
               className={`ak-page-btn ${n === page ? "on" : ""}`.trim()}
               onClick={() => setPage(n)}
             >
@@ -154,6 +156,7 @@ export function BlogView() {
             </button>
           ))}
           <button
+            type="button"
             className="ak-page-btn"
             onClick={() => setPage((p) => Math.min(3, p + 1))}
             aria-label="Siguiente"

@@ -49,7 +49,7 @@ export function Button({
       className={cls}
       onClick={onClick}
       style={style}
-      type={type}
+      type={type ?? "button"}
       disabled={disabled}
       {...rest}
     >

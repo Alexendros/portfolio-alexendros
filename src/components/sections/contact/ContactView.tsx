@@ -345,10 +345,10 @@ function Calendar() {
       <div className="ak-cal-head">
         <span className="ak-label">Agenda una llamada</span>
         <span className="ak-cal-nav">
-          <button aria-label="Mes anterior">
+          <button type="button" aria-label="Mes anterior">
             <Icon name="chevron-left" size={15} />
           </button>
-          <button aria-label="Mes siguiente">
+          <button type="button" aria-label="Mes siguiente">
             <Icon name="chevron-right" size={15} />
           </button>
         </span>
