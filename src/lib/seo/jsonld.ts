@@ -1,129 +1,141 @@
-// Helpers JSON-LD para datos estructurados (Schema.org).
-// Generan el objeto @graph que se inyecta como <script type="application/ld+json">
-// en cada página. Todos los tipos se validan vía schema-dts.
-
+/**
+ * Helpers para generar objetos JSON-LD Schema.org tipados con schema-dts.
+ * La salida es un plain object serializable por JSON.stringify.
+ * No incluir email del operador en ningún JSON-LD público.
+ */
 import type {
-  WithContext,
-  Graph,
-  Person,
   WebSite,
-  ProfessionalService,
+  Person,
+  WithContext,
+  BreadcrumbList,
   BlogPosting,
   SoftwareApplication,
+  ProfessionalService,
+  SearchAction,
 } from "schema-dts";
 import type { Post, Project } from "@/lib/content/types";
 
 const SITE_URL = "https://alexendros.dev";
-const AUTHOR_NAME = "Alejandro Domingo Agustí";
+const SITE_NAME = "Alejandro Domingo Agustí";
 
-// --------------------------------------------------------------------------
-// Nodos reutilizables
-// --------------------------------------------------------------------------
-
-function buildPersonNode(): Person {
+export function makeWebSiteJsonLd(): WithContext<WebSite> {
   return {
-    "@type": "Person",
-    "@id": `${SITE_URL}/#person`,
-    name: AUTHOR_NAME,
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
     url: SITE_URL,
-    sameAs: [`${SITE_URL}/about`],
-    jobTitle: "Desarrollador Fullstack",
     description:
-      "Desarrollador fullstack especializado en plataformas, webs y aplicaciones a medida.",
-    knowsAbout: [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Node.js",
-      "PostgreSQL",
-      "DevOps",
+      "Desarrollo plataformas, webs y aplicaciones a medida en Valencia. Tecnología moderna, código que es tuyo.",
+    inLanguage: "es-ES",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/blog?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    } as unknown as SearchAction,
+  };
+}
+
+export function makePersonJsonLd(): WithContext<Person> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: SITE_NAME,
+    url: SITE_URL,
+    jobTitle: "Desarrollador de plataformas, webs y aplicaciones",
+    worksFor: {
+      "@type": "Organization",
+      name: "Alexendros",
+      url: SITE_URL,
+    },
+    sameAs: [
+      "https://github.com/Alexendros",
+      "https://www.linkedin.com/in/alejandro-d-a-024391384",
     ],
   };
 }
 
-function buildWebSiteNode(): WebSite {
+export function makeProfessionalServiceJsonLd(): WithContext<ProfessionalService> {
   return {
-    "@type": "WebSite",
-    "@id": `${SITE_URL}/#website`,
-    url: SITE_URL,
-    name: "Alexendros",
-    description:
-      "Portafolio y blog de Alejandro Domingo Agustí — desarrollo de plataformas, webs y apps.",
-    inLanguage: "es",
-    author: { "@id": `${SITE_URL}/#person` },
-  };
-}
-
-function buildProfessionalServiceNode(): ProfessionalService {
-  return {
+    "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "@id": `${SITE_URL}/#service`,
-    name: "Alexendros · Desarrollo Web y de Plataformas",
-    url: SITE_URL,
+    name: SITE_NAME,
+    url: `${SITE_URL}/servicios`,
     description:
-      "Desarrollo de plataformas, webs y aplicaciones a medida en Valencia. Tecnología moderna, código que es tuyo.",
-    areaServed: "ES",
-    knowsAbout: ["Desarrollo Web", "Aplicaciones a medida", "Plataformas SaaS"],
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Valencia",
-      addressCountry: "ES",
+      "Desarrollo de webs, aplicaciones y plataformas a medida en Valencia. Planes por proyecto o cuota mensual, precios cerrados pensados para empresas nuevas y pequeñas.",
+    areaServed: {
+      "@type": "Place",
+      name: "España",
+    },
+    serviceType: "Desarrollo de software a medida",
+    provider: {
+      "@type": "Person",
+      name: SITE_NAME,
+      url: SITE_URL,
     },
   };
 }
 
-// --------------------------------------------------------------------------
-// Builders por tipo de página
-// --------------------------------------------------------------------------
-
-/** Grafo para la página de inicio (Person + WebSite + ProfessionalService). */
-export function buildHomeGraph(): Graph {
-  return {
-    "@context": "https://schema.org",
-    "@graph": [
-      buildPersonNode(),
-      buildWebSiteNode(),
-      buildProfessionalServiceNode(),
-    ],
-  };
-}
-
-/** Grafo para una entrada de blog. */
-export function buildBlogPostGraph(post: Post): WithContext<BlogPosting> {
+export function makeBlogPostingJsonLd(post: Post): WithContext<BlogPosting> {
+  const description =
+    post.metaDescription ?? post.desc ?? `${post.title} — nota de ingeniería.`;
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "@id": `${SITE_URL}/blog/${post.id}`,
     headline: post.title,
-    description: post.desc,
+    description,
     url: `${SITE_URL}/blog/${post.id}`,
     datePublished: post.date,
-    inLanguage: "es",
-    author: { "@id": `${SITE_URL}/#person` },
-    publisher: { "@id": `${SITE_URL}/#person` },
-    isPartOf: { "@id": `${SITE_URL}/#website` },
+    author: {
+      "@type": "Person",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Person",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    inLanguage: "es-ES",
+    keywords: post.tag,
   };
 }
 
-/** Grafo para un proyecto del portafolio. */
-export function buildProjectGraph(project: Project): WithContext<SoftwareApplication> {
+export function makeCreativeWorkJsonLd(
+  project: Project
+): WithContext<SoftwareApplication> {
+  const description = project.metaDescription ?? project.desc;
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "@id": `${SITE_URL}/projects#${project.id}`,
     name: project.title,
-    description: project.desc,
+    description,
+    url: project.liveUrl ?? `${SITE_URL}/proyectos/${project.id}`,
     applicationCategory: project.category,
-    dateCreated: project.year,
-    author: { "@id": `${SITE_URL}/#person` },
+    author: {
+      "@type": "Person",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    keywords: project.tags.join(", "),
+    datePublished: project.year,
+    ...(project.repoUrl ? { codeRepository: project.repoUrl } : {}),
   };
 }
 
-// --------------------------------------------------------------------------
-// Componente de renderizado (Server Component compatible)
-// --------------------------------------------------------------------------
-
-/** Serializa el grafo JSON-LD como string seguro para inyectar en <head>. */
-export function serializeJsonLd(data: object): string {
-  return JSON.stringify(data).replace(/</g, "\\u003c");
+export function makeBreadcrumbJsonLd(
+  items: { name: string; url: string }[]
+): WithContext<BreadcrumbList> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
 }

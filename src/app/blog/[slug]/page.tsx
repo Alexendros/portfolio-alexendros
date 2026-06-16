@@ -8,6 +8,8 @@ import { extractToc, getPostSource } from "@/lib/blog";
 import { Icon } from "@/components/ui/Icon";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { PostToc } from "@/components/sections/blog/PostToc";
+import { JsonLd } from "@/components/JsonLd";
+import { makeBlogPostingJsonLd } from "@/lib/seo/jsonld";
 
 export function generateStaticParams() {
   return POSTS.map((p) => ({ slug: p.id }));
@@ -44,6 +46,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
   return (
     <div className="ak-container">
+      <JsonLd data={makeBlogPostingJsonLd(p)} />
       <Link className="ak-back" href="/blog">
         <Icon name="arrow-left" size={15} />
         Blog

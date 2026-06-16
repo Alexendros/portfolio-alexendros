@@ -5,6 +5,8 @@ import { PROJECTS, getProject, getCaseStudy } from "@/lib/content";
 import type { CaseBlock } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { JsonLd } from "@/components/JsonLd";
+import { makeCreativeWorkJsonLd, makeBreadcrumbJsonLd } from "@/lib/seo/jsonld";
 
 export function generateStaticParams() {
   return PROJECTS.map((p) => ({ slug: p.id }));
@@ -77,6 +79,14 @@ export default async function ProjectCasePage({ params }: { params: Promise<{ sl
 
   return (
     <div className="ak-container">
+      <JsonLd data={makeCreativeWorkJsonLd(p)} />
+      <JsonLd
+        data={makeBreadcrumbJsonLd([
+          { name: "Inicio", url: "https://alexendros.dev" },
+          { name: "Proyectos", url: "https://alexendros.dev/proyectos" },
+          { name: p.title, url: `https://alexendros.dev/proyectos/${p.id}` },
+        ])}
+      />
       <Link className="ak-back" href="/proyectos">
         <Icon name="arrow-left" size={15} />
         Proyectos
