@@ -53,11 +53,22 @@ src/
 emails/                 plantillas React Email
 content/blog/           *.mdx
 prisma/                 schema.prisma
-tests/                  unit (Vitest) + e2e (Playwright)
+tests/                  unit + integration + component (Vitest) + e2e (Playwright); helpers/, fixtures/
 public/                 assets estáticos
 .github/workflows/      ci.yml
 .claude/                scaffolding MCEOD L2
 ```
+
+## Testing
+
+Pirámide en cuatro capas con gate de cobertura (detalle y patrones en `tests/README.md`):
+
+- **Unit** (`tests/unit/`, Vitest/node): lógica pura/stateful — validación zod, rate-limit, JSON-LD, blog, contenido, init null-safe de clientes.
+- **Integración** (`tests/integration/`, Vitest/node): los 4 Route Handlers invocando el `POST` exportado con un `Request` y mockeando `prisma`/`resend`/`stripe` (`vi.mock` + getters hoisted). Cubre 200/400/422/429/503/502, honeypot, rate-limit y la degradación null-safe.
+- **Componentes** (`tests/component/`, Vitest/jsdom + RTL): islas cliente, con MSW para la red. Regla RSC: los Server Components **asíncronos** no se testean aquí, van a e2e.
+- **E2E** (`tests/e2e/`, Playwright + axe): flujos sobre el build de producción y accesibilidad multi-ruta.
+
+Vitest usa dos `projects` (node + jsdom) y aliasa `server-only`→módulo vacío para poder importar la lógica servidor. Cobertura v8 sobre `src/lib/**` + `src/app/api/**` con umbrales que bloquean el merge (`pnpm test:coverage`, también en CI).
 
 ## Frontera cliente/servidor
 

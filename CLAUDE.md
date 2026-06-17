@@ -12,16 +12,18 @@ pnpm build          # build de producción
 pnpm lint           # ESLint (eslint-config-next)
 pnpm typecheck      # tsc --noEmit (TS estricto)
 pnpm format:check   # Prettier en modo verificación (CI); pnpm format para escribir
-pnpm test           # Vitest (unit) en modo run
+pnpm test           # Vitest (unit + integration + component) en modo run
 pnpm test:watch     # Vitest en watch
+pnpm test:coverage  # Vitest con cobertura v8 + umbrales (lo que corre CI)
 pnpm e2e            # Playwright + axe (e2e)
 ```
 
-- **Un solo test unitario**: `pnpm exec vitest run tests/unit/validation.test.ts` (o `-t "<nombre>"` para filtrar por título).
+- **Estructura de tests** (detalle en `tests/README.md`): `tests/unit` (node), `tests/integration` (Route Handlers, node), `tests/component` (islas cliente, jsdom/RTL + MSW), `tests/e2e` (Playwright), más `tests/helpers` y `tests/fixtures`. Vitest usa dos `projects` (node + jsdom) y **aliasa `server-only`→módulo vacío** para poder importar la lógica servidor en node. Cobertura v8 (gate progresivo que bloquea merge) sobre `src/lib/**` + `src/app/api/**`.
+- **Un solo test**: `pnpm exec vitest run tests/integration/contact.test.ts` (o `-t "<nombre>"` por título). Por entorno: `--project unit` / `--project component`.
 - **Un solo e2e**: `pnpm exec playwright test tests/e2e/smoke.spec.ts`. `playwright.config.ts` arranca `pnpm dev` automáticamente (webServer).
 - **Base de datos**: `pnpm db:migrate` (dev) / `pnpm db:deploy` (prod) / `pnpm db:generate`. `postinstall` ejecuta `prisma generate`. Las migraciones **exigen** `DATABASE_URL`; `prisma generate` funciona sin ella.
 
-El pipeline de CI (`.github/workflows/ci.yml`, job `quality`) corre en orden: `format:check → lint → typecheck → test → build`; el job `e2e` depende de `quality`. Replica ese orden antes de dar trabajo por cerrado.
+El pipeline de CI (`.github/workflows/ci.yml`, job `quality`) corre en orden: `format:check → lint → typecheck → test:coverage → build`; el job `e2e` depende de `quality`. Replica ese orden antes de dar trabajo por cerrado.
 
 ## Arquitectura
 

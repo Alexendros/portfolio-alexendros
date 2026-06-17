@@ -131,6 +131,34 @@
 > Nota build (2026-06-15): el fallo `useContext` null en sandbox **ya no se reproduce**;
 > `next build` compila las 28 rutas en verde en local (worktree), igual que CI/Vercel.
 
+## F10 · Estrategia de testing
+
+Pirámide completa (unit + integración + componentes + e2e) con gate de cobertura. Documentación
+en `tests/README.md`. Objetivo: garantías de no-regresión sobre la lógica de negocio (Route
+Handlers, validación, rate-limit, degradación null-safe) y las islas cliente.
+
+| #    | Tarea                                                                                                                         | Estado | Bloquea   | Desbloquea |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------- | ------ | --------- | ---------- |
+| 10.1 | Infra: deps (jsdom, RTL, MSW, coverage-v8), Vitest `projects`, alias `server-only`, helpers/fixtures                          | hecho  | 0.10      | 10.2–10.4  |
+| 10.2 | Unit: rate-limit, JSON-LD, blog, case-studies, invariantes de contenido, clientes null-safe                                   | hecho  | 10.1      | 10.6       |
+| 10.3 | Integración: 4 Route Handlers (200/400/422/429/503/502, honeypot, degradación) vía `vi.mock`                                  | hecho  | 10.1      | 10.6       |
+| 10.4 | Componentes (jsdom/RTL): ContactView, NewsletterForm, PurchaseCard, ProjectsView, Terminal, Testimonials, useTheme, useReveal | hecho  | 10.1      | 10.6       |
+| 10.5 | E2E ampliado: newsletter, checkout (fallback 503), proyectos, blog, a11y multi-ruta                                           | hecho  | 10.4      | —          |
+| 10.6 | Gate de cobertura v8 progresivo + CI (`pnpm test` → `pnpm test:coverage`)                                                     | hecho  | 10.2,10.3 | —          |
+| 10.7 | Docs: `tests/README.md`, sección Testing en `ARCHITECTURE.md`, ROADMAP/CLAUDE                                                 | hecho  | 10.6      | —          |
+
+> Cobertura (v8) sobre `src/lib/**` + `src/app/api/**`, gate progresivo en `vitest.config.ts`:
+>
+> | Hito        | Statements | Branches | Functions | Lines |
+> | ----------- | ---------- | -------- | --------- | ----- |
+> | F10.2 base  | 60         | 55       | 60        | 60    |
+> | F10.3 +API  | 72         | 68       | 72        | 72    |
+> | F10.4 +comp | 80         | 75       | 80        | 80    |
+>
+> Medición actual ≈ **96/89/98/96** (101 tests verdes). Los componentes/páginas (Server
+> Components asíncronos incluidos) se cubren por comportamiento (proyecto `component` y e2e),
+> no por porcentaje. Regla RSC: async server components → e2e.
+
 ---
 
 ## Estado de cierre (2026-06-15) — Reposicionamiento hacia desarrollo

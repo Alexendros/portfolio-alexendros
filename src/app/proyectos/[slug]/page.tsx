@@ -109,7 +109,12 @@ export default async function ProjectCasePage({ params }: { params: Promise<{ sl
               </Button>
             )}
             {p.repoUrl && (
-              <Button variant="secondary" href={p.repoUrl} target="_blank" rel="noopener noreferrer">
+              <Button
+                variant="secondary"
+                href={p.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Icon name="github" size={15} style={{ marginRight: 7 }} />
                 Repositorio
               </Button>

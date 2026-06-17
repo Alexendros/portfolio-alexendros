@@ -5,49 +5,49 @@
  * Salida: ~/auditoria-alexendros-dev/reports/html-validate-<slug>.json
  */
 
-import { createRequire } from 'node:module';
-import { writeFileSync, mkdirSync } from 'node:fs';
-import { homedir } from 'node:os';
-import { join } from 'node:path';
+import { createRequire } from "node:module";
+import { writeFileSync, mkdirSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
 
 const require = createRequire(import.meta.url);
-const { HtmlValidate } = require('html-validate');
+const { HtmlValidate } = require("html-validate");
 
-const REPORTS_DIR = join(homedir(), 'auditoria-alexendros-dev', 'reports');
+const REPORTS_DIR = join(homedir(), "auditoria-alexendros-dev", "reports");
 mkdirSync(REPORTS_DIR, { recursive: true });
 
 const URLS = [
-  'https://alexendros.dev',
-  'https://alexendros.dev/servicios',
-  'https://alexendros.dev/sobre-mi',
-  'https://alexendros.dev/stack',
-  'https://alexendros.dev/proyectos',
-  'https://alexendros.dev/contacto',
-  'https://alexendros.dev/escaparate',
-  'https://alexendros.dev/proximamente',
-  'https://alexendros.dev/blog',
-  'https://alexendros.dev/proyectos/alexendros-me',
-  'https://alexendros.dev/proyectos/trenchpass',
-  'https://alexendros.dev/proyectos/nasve',
-  'https://alexendros.dev/blog/trenchpass-mcp-gateway',
-  'https://alexendros.dev/blog/xek-verificacion-componible',
-  'https://alexendros.dev/sitemap.xml',
-  'https://alexendros.dev/robots.txt',
-  'https://alexendros.dev/feed.xml',
+  "https://alexendros.dev",
+  "https://alexendros.dev/servicios",
+  "https://alexendros.dev/sobre-mi",
+  "https://alexendros.dev/stack",
+  "https://alexendros.dev/proyectos",
+  "https://alexendros.dev/contacto",
+  "https://alexendros.dev/escaparate",
+  "https://alexendros.dev/proximamente",
+  "https://alexendros.dev/blog",
+  "https://alexendros.dev/proyectos/alexendros-me",
+  "https://alexendros.dev/proyectos/trenchpass",
+  "https://alexendros.dev/proyectos/nasve",
+  "https://alexendros.dev/blog/trenchpass-mcp-gateway",
+  "https://alexendros.dev/blog/xek-verificacion-componible",
+  "https://alexendros.dev/sitemap.xml",
+  "https://alexendros.dev/robots.txt",
+  "https://alexendros.dev/feed.xml",
 ];
 
 function slugify(url) {
   return url
-    .replace(/^https?:\/\//, '')
-    .replace(/[^a-zA-Z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/^https?:\/\//, "")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 const htmlvalidate = new HtmlValidate({
-  extends: ['html-validate:recommended'],
+  extends: ["html-validate:recommended"],
   rules: {
-    'no-inline-style': 'off',
-    'attr-quotes': 'off',
+    "no-inline-style": "off",
+    "attr-quotes": "off",
   },
 });
 
@@ -57,14 +57,14 @@ for (const url of URLS) {
   const slug = slugify(url);
   console.log(`\n[html-validate] → ${url}`);
 
-  let status = 'ok';
+  let status = "ok";
   let errorCount = 0;
   let messages = [];
   let rawResult = null;
 
   try {
     const res = await fetch(url, {
-      headers: { 'User-Agent': 'html-validate-audit/1.0' },
+      headers: { "User-Agent": "html-validate-audit/1.0" },
       signal: AbortSignal.timeout(15000),
     });
 
@@ -73,11 +73,11 @@ for (const url of URLS) {
       console.log(`  HTTP ${res.status} — saltando`);
     } else {
       const html = await res.text();
-      const contentType = res.headers.get('content-type') || '';
+      const contentType = res.headers.get("content-type") || "";
 
       // Solo validar HTML (no XML/plain)
-      if (!contentType.includes('html') && url.match(/\.(xml|txt)$/)) {
-        status = 'skipped_non_html';
+      if (!contentType.includes("html") && url.match(/\.(xml|txt)$/)) {
+        status = "skipped_non_html";
         console.log(`  Contenido no-HTML (${contentType}) — saltando validación`);
       } else {
         rawResult = await htmlvalidate.validateString(html, url);
@@ -88,7 +88,7 @@ for (const url of URLS) {
       }
     }
   } catch (err) {
-    status = 'fetch_error';
+    status = "fetch_error";
     console.log(`  Error: ${err.message}`);
   }
 
@@ -109,6 +109,6 @@ for (const url of URLS) {
 }
 
 // Guardar resumen agregado
-const summaryPath = join(REPORTS_DIR, 'html-validate-summary.json');
+const summaryPath = join(REPORTS_DIR, "html-validate-summary.json");
 writeFileSync(summaryPath, JSON.stringify(summary, null, 2));
 console.log(`\n✅ html-validate completado. Resumen: ${summaryPath}`);
