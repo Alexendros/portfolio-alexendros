@@ -5,55 +5,63 @@
  * 6 corridas: 3 URLs × 2 dispositivos (mobile + desktop)
  */
 
-import { createRequire } from 'node:module';
-import { writeFileSync, mkdirSync } from 'node:fs';
-import { homedir } from 'node:os';
-import path from 'node:path';
+import { createRequire } from "node:module";
+import { writeFileSync, mkdirSync } from "node:fs";
+import { homedir } from "node:os";
+import path from "node:path";
 
 const require = createRequire(import.meta.url);
 
 // Raíz del repo: dos niveles arriba de este script (scripts/ → raíz). Rutas
 // relativas para que el audit sobreviva a renombrados de la carpeta del repo.
-const repoRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const repoRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 
 // chrome-launcher es CJS → require con ruta al store pnpm
 const chromeLauncher = require(
-  path.join(repoRoot, 'node_modules/.pnpm/chrome-launcher@1.2.1/node_modules/chrome-launcher/dist/index.js'),
+  path.join(
+    repoRoot,
+    "node_modules/.pnpm/chrome-launcher@1.2.1/node_modules/chrome-launcher/dist/index.js",
+  ),
 );
 
 // lighthouse es ESM (type: "module") → import dinámico
 const { default: lighthouse } = await import(
-  path.join(repoRoot, 'node_modules/lighthouse/core/index.js'),
+  path.join(repoRoot, "node_modules/lighthouse/core/index.js")
 );
 
-const CHROME_PATH = '/home/alexendros/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome';
-const REPORTS_DIR = path.join(homedir(), 'auditoria-alexendros-dev', 'reports');
+const CHROME_PATH = "/home/alexendros/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome";
+const REPORTS_DIR = path.join(homedir(), "auditoria-alexendros-dev", "reports");
 
 // Asegurar directorio
 mkdirSync(REPORTS_DIR, { recursive: true });
 
 const URLS = [
-  { url: 'https://alexendros.dev', slug: 'home' },
-  { url: 'https://alexendros.dev/servicios', slug: 'servicios' },
-  { url: 'https://alexendros.dev/blog', slug: 'blog', fallback: 'https://alexendros.dev/stack', fallbackSlug: 'stack' },
+  { url: "https://alexendros.dev", slug: "home" },
+  { url: "https://alexendros.dev/servicios", slug: "servicios" },
+  {
+    url: "https://alexendros.dev/blog",
+    slug: "blog",
+    fallback: "https://alexendros.dev/stack",
+    fallbackSlug: "stack",
+  },
 ];
 
-const DEVICES = ['mobile', 'desktop'];
+const DEVICES = ["mobile", "desktop"];
 
 /** Opciones Lighthouse por dispositivo */
 function getLighthouseConfig(device) {
   const base = {
-    logLevel: 'error',
-    output: 'json',
-    onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
+    logLevel: "error",
+    output: "json",
+    onlyCategories: ["performance", "accessibility", "best-practices", "seo"],
     maxWaitForFcp: 30000,
     maxWaitForLoad: 45000,
   };
 
-  if (device === 'mobile') {
+  if (device === "mobile") {
     return {
       ...base,
-      formFactor: 'mobile',
+      formFactor: "mobile",
       throttling: {
         rttMs: 150,
         throughputKbps: 1638.4,
@@ -70,12 +78,12 @@ function getLighthouseConfig(device) {
         disabled: false,
       },
       emulatedUserAgent:
-        'Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
+        "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36",
     };
   } else {
     return {
       ...base,
-      formFactor: 'desktop',
+      formFactor: "desktop",
       throttling: {
         rttMs: 40,
         throughputKbps: 10240,
@@ -92,14 +100,14 @@ function getLighthouseConfig(device) {
         disabled: false,
       },
       emulatedUserAgent:
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
     };
   }
 }
 
 /** Extrae métricas clave del resultado de Lighthouse */
 function extractMetrics(lhrJson) {
-  const lhr = typeof lhrJson === 'string' ? JSON.parse(lhrJson) : lhrJson;
+  const lhr = typeof lhrJson === "string" ? JSON.parse(lhrJson) : lhrJson;
   const cats = lhr.categories || {};
   const audits = lhr.audits || {};
 
@@ -114,24 +122,24 @@ function extractMetrics(lhrJson) {
   }
 
   function rating(score) {
-    if (score === null) return 'n/a';
-    if (score >= 0.9) return 'good';
-    if (score >= 0.5) return 'needs-improvement';
-    return 'poor';
+    if (score === null) return "n/a";
+    if (score >= 0.9) return "good";
+    if (score >= 0.5) return "needs-improvement";
+    return "poor";
   }
 
-  const lcp = getAudit('largest-contentful-paint');
-  const cls = getAudit('cumulative-layout-shift');
-  const tbt = getAudit('total-blocking-time');
-  const si = getAudit('speed-index');
-  const tti = getAudit('interactive');
-  const fcp = getAudit('first-contentful-paint');
+  const lcp = getAudit("largest-contentful-paint");
+  const cls = getAudit("cumulative-layout-shift");
+  const tbt = getAudit("total-blocking-time");
+  const si = getAudit("speed-index");
+  const tti = getAudit("interactive");
+  const fcp = getAudit("first-contentful-paint");
 
   return {
     scores: {
       performance: Math.round((cats.performance?.score ?? 0) * 100),
       accessibility: Math.round((cats.accessibility?.score ?? 0) * 100),
-      bestPractices: Math.round((cats['best-practices']?.score ?? 0) * 100),
+      bestPractices: Math.round((cats["best-practices"]?.score ?? 0) * 100),
       seo: Math.round((cats.seo?.score ?? 0) * 100),
     },
     lcp: {
@@ -167,11 +175,11 @@ async function runAudit(url, slug, device) {
     chrome = await chromeLauncher.launch({
       chromePath: CHROME_PATH,
       chromeFlags: [
-        '--headless=new',
-        '--no-sandbox',
-        '--disable-gpu',
-        '--disable-dev-shm-usage',
-        '--disable-software-rasterizer',
+        "--headless=new",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-software-rasterizer",
       ],
     });
 
@@ -186,12 +194,12 @@ async function runAudit(url, slug, device) {
     const runnerResult = await lighthouse(url, options);
 
     if (!runnerResult || !runnerResult.lhr) {
-      throw new Error('Lighthouse no devolvió resultado (lhr undefined)');
+      throw new Error("Lighthouse no devolvió resultado (lhr undefined)");
     }
 
     // Guardar JSON completo
     const reportPath = path.join(REPORTS_DIR, `lh-${slug}-${device}.json`);
-    writeFileSync(reportPath, JSON.stringify(runnerResult.lhr, null, 2), 'utf-8');
+    writeFileSync(reportPath, JSON.stringify(runnerResult.lhr, null, 2), "utf-8");
     console.error(`  ✅ Guardado: ${reportPath}`);
 
     const metrics = extractMetrics(runnerResult.lhr);
@@ -199,7 +207,11 @@ async function runAudit(url, slug, device) {
   } catch (err) {
     console.error(`  ❌ Error: ${err.message}`);
     const errorPath = path.join(REPORTS_DIR, `lh-${slug}-${device}.json`);
-    writeFileSync(errorPath, JSON.stringify({ error: err.message, url, device, slug }, null, 2), 'utf-8');
+    writeFileSync(
+      errorPath,
+      JSON.stringify({ error: err.message, url, device, slug }, null, 2),
+      "utf-8",
+    );
     return { url, slug, device, metrics: null, error: err.message };
   } finally {
     if (chrome) {
@@ -214,7 +226,7 @@ async function runAudit(url, slug, device) {
 /** Verifica si una URL responde 200 */
 async function checkUrl(url) {
   try {
-    const res = await fetch(url, { method: 'HEAD', signal: AbortSignal.timeout(10000) });
+    const res = await fetch(url, { method: "HEAD", signal: AbortSignal.timeout(10000) });
     return res.ok;
   } catch {
     return false;
@@ -224,73 +236,81 @@ async function checkUrl(url) {
 /** Genera tabla Markdown */
 function buildMarkdownTable(results) {
   const lines = [];
-  lines.push('# Resumen Core Web Vitals — alexendros.dev');
-  lines.push('');
-  lines.push(`> Fecha: ${new Date().toISOString().replace('T', ' ').slice(0, 19)} UTC`);
+  lines.push("# Resumen Core Web Vitals — alexendros.dev");
+  lines.push("");
+  lines.push(`> Fecha: ${new Date().toISOString().replace("T", " ").slice(0, 19)} UTC`);
   lines.push(`> Lighthouse 13.4.0 · Chromium headless (playwright)`);
-  lines.push('');
+  lines.push("");
 
   // Tabla de scores
-  lines.push('## Scores Lighthouse (0-100)');
-  lines.push('');
-  lines.push('| URL | Dispositivo | Perf | A11y | Best-P | SEO |');
-  lines.push('|-----|-------------|-----:|-----:|-------:|----:|');
+  lines.push("## Scores Lighthouse (0-100)");
+  lines.push("");
+  lines.push("| URL | Dispositivo | Perf | A11y | Best-P | SEO |");
+  lines.push("|-----|-------------|-----:|-----:|-------:|----:|");
 
   for (const r of results) {
-    const label = r.url.replace('https://alexendros.dev', '') || '/';
+    const label = r.url.replace("https://alexendros.dev", "") || "/";
     if (r.error) {
       lines.push(`| \`${label}\` | ${r.device} | ❌ error | — | — | — |`);
     } else {
       const s = r.metrics.scores;
-      lines.push(`| \`${label}\` | ${r.device} | ${s.performance} | ${s.accessibility} | ${s.bestPractices} | ${s.seo} |`);
+      lines.push(
+        `| \`${label}\` | ${r.device} | ${s.performance} | ${s.accessibility} | ${s.bestPractices} | ${s.seo} |`,
+      );
     }
   }
 
-  lines.push('');
-  lines.push('## Core Web Vitals detallados');
-  lines.push('');
-  lines.push('| URL | Dispositivo | LCP (ms) | LCP rating | CLS | CLS rating | TBT (ms) | TBT rating | Speed Index | TTI (ms) | FCP (ms) |');
-  lines.push('|-----|-------------|----------:|------------|-----:|------------|----------:|------------|------------:|---------:|---------:|');
+  lines.push("");
+  lines.push("## Core Web Vitals detallados");
+  lines.push("");
+  lines.push(
+    "| URL | Dispositivo | LCP (ms) | LCP rating | CLS | CLS rating | TBT (ms) | TBT rating | Speed Index | TTI (ms) | FCP (ms) |",
+  );
+  lines.push(
+    "|-----|-------------|----------:|------------|-----:|------------|----------:|------------|------------:|---------:|---------:|",
+  );
 
   for (const r of results) {
-    const label = r.url.replace('https://alexendros.dev', '') || '/';
+    const label = r.url.replace("https://alexendros.dev", "") || "/";
     if (r.error) {
       lines.push(`| \`${label}\` | ${r.device} | ❌ | — | — | — | — | — | — | — | — |`);
     } else {
       const m = r.metrics;
       lines.push(
         `| \`${label}\` | ${r.device}` +
-          ` | ${m.lcp.ms ?? 'n/a'} | ${m.lcp.rating}` +
-          ` | ${m.cls.value ?? 'n/a'} | ${m.cls.rating}` +
-          ` | ${m.tbt.ms ?? 'n/a'} | ${m.tbt.rating}` +
-          ` | ${m.si.ms ?? 'n/a'}` +
-          ` | ${m.tti.ms ?? 'n/a'}` +
-          ` | ${m.fcp.ms ?? 'n/a'} |`
+          ` | ${m.lcp.ms ?? "n/a"} | ${m.lcp.rating}` +
+          ` | ${m.cls.value ?? "n/a"} | ${m.cls.rating}` +
+          ` | ${m.tbt.ms ?? "n/a"} | ${m.tbt.rating}` +
+          ` | ${m.si.ms ?? "n/a"}` +
+          ` | ${m.tti.ms ?? "n/a"}` +
+          ` | ${m.fcp.ms ?? "n/a"} |`,
       );
     }
   }
 
-  lines.push('');
-  lines.push('## Errores');
-  lines.push('');
+  lines.push("");
+  lines.push("## Errores");
+  lines.push("");
   const errors = results.filter((r) => r.error);
   if (errors.length === 0) {
-    lines.push('Ninguna corrida falló.');
+    lines.push("Ninguna corrida falló.");
   } else {
     for (const e of errors) {
       lines.push(`- **${e.url} [${e.device}]**: \`${e.error}\``);
     }
   }
 
-  lines.push('');
-  lines.push(`_Total corridas: ${results.length} · Completadas: ${results.filter((r) => !r.error).length} · Fallidas: ${errors.length}_`);
+  lines.push("");
+  lines.push(
+    `_Total corridas: ${results.length} · Completadas: ${results.filter((r) => !r.error).length} · Fallidas: ${errors.length}_`,
+  );
 
-  return lines.join('\n');
+  return lines.join("\n");
 }
 
 /** Main */
 async function main() {
-  console.error('=== audit-lighthouse.mjs — alexendros.dev ===');
+  console.error("=== audit-lighthouse.mjs — alexendros.dev ===");
   console.error(`Directorio de reports: ${REPORTS_DIR}`);
 
   // Resolver URLs (comprobar /blog vs /stack)
@@ -321,8 +341,8 @@ async function main() {
 
   // Construir resumen
   const markdown = buildMarkdownTable(results);
-  const summaryPath = path.join(REPORTS_DIR, 'lh-cwv-resumen.md');
-  writeFileSync(summaryPath, markdown, 'utf-8');
+  const summaryPath = path.join(REPORTS_DIR, "lh-cwv-resumen.md");
+  writeFileSync(summaryPath, markdown, "utf-8");
 
   console.error(`\n✅ Resumen guardado: ${summaryPath}`);
 
@@ -331,6 +351,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error('Error fatal en main:', err);
+  console.error("Error fatal en main:", err);
   process.exit(1);
 });

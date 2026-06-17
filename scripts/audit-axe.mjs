@@ -5,35 +5,35 @@
  * Salida: ~/auditoria-alexendros-dev/reports/axe-<slug>.json
  */
 
-import { createRequire } from 'node:module';
-import { writeFileSync, mkdirSync } from 'node:fs';
-import { homedir } from 'node:os';
-import { join } from 'node:path';
+import { createRequire } from "node:module";
+import { writeFileSync, mkdirSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
 
 const require = createRequire(import.meta.url);
-const { chromium } = require('@playwright/test');
-const { AxeBuilder } = require('@axe-core/playwright');
+const { chromium } = require("@playwright/test");
+const { AxeBuilder } = require("@axe-core/playwright");
 
-const REPORTS_DIR = join(homedir(), 'auditoria-alexendros-dev', 'reports');
+const REPORTS_DIR = join(homedir(), "auditoria-alexendros-dev", "reports");
 mkdirSync(REPORTS_DIR, { recursive: true });
 
-const CHROME_EXEC = '/home/alexendros/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome';
+const CHROME_EXEC = "/home/alexendros/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome";
 
 const URLS = [
-  'https://alexendros.dev',
-  'https://alexendros.dev/servicios',
-  'https://alexendros.dev/sobre-mi',
-  'https://alexendros.dev/stack',
-  'https://alexendros.dev/proyectos',
-  'https://alexendros.dev/contacto',
-  'https://alexendros.dev/escaparate',
-  'https://alexendros.dev/proximamente',
-  'https://alexendros.dev/blog',
-  'https://alexendros.dev/proyectos/alexendros-me',
-  'https://alexendros.dev/proyectos/trenchpass',
-  'https://alexendros.dev/proyectos/nasve',
-  'https://alexendros.dev/blog/trenchpass-mcp-gateway',
-  'https://alexendros.dev/blog/xek-verificacion-componible',
+  "https://alexendros.dev",
+  "https://alexendros.dev/servicios",
+  "https://alexendros.dev/sobre-mi",
+  "https://alexendros.dev/stack",
+  "https://alexendros.dev/proyectos",
+  "https://alexendros.dev/contacto",
+  "https://alexendros.dev/escaparate",
+  "https://alexendros.dev/proximamente",
+  "https://alexendros.dev/blog",
+  "https://alexendros.dev/proyectos/alexendros-me",
+  "https://alexendros.dev/proyectos/trenchpass",
+  "https://alexendros.dev/proyectos/nasve",
+  "https://alexendros.dev/blog/trenchpass-mcp-gateway",
+  "https://alexendros.dev/blog/xek-verificacion-componible",
   // Estos son no-HTML — axe no puede analizarlos
   // 'https://alexendros.dev/sitemap.xml',
   // 'https://alexendros.dev/robots.txt',
@@ -42,9 +42,9 @@ const URLS = [
 
 function slugify(url) {
   return url
-    .replace(/^https?:\/\//, '')
-    .replace(/[^a-zA-Z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/^https?:\/\//, "")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 const summary = [];
@@ -52,7 +52,7 @@ const summary = [];
 const browser = await chromium.launch({
   executablePath: CHROME_EXEC,
   headless: true,
-  args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  args: ["--no-sandbox", "--disable-setuid-sandbox"],
 });
 
 const context = await browser.newContext();
@@ -61,7 +61,7 @@ for (const url of URLS) {
   const slug = slugify(url);
   console.log(`\n[axe] → ${url}`);
 
-  let status = 'ok';
+  let status = "ok";
   let violations = [];
   let passes = 0;
   let incomplete = 0;
@@ -69,7 +69,7 @@ for (const url of URLS) {
   const page = await context.newPage();
   try {
     const response = await page.goto(url, {
-      waitUntil: 'networkidle',
+      waitUntil: "networkidle",
       timeout: 30000,
     });
 
@@ -79,25 +79,25 @@ for (const url of URLS) {
       console.log(`  HTTP ${httpStatus} — saltando`);
     } else {
       const axeResults = await new AxeBuilder({ page })
-        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"])
         .analyze();
 
       violations = axeResults.violations;
       passes = axeResults.passes.length;
       incomplete = axeResults.incomplete.length;
 
-      const byCritical = violations.filter((v) => v.impact === 'critical').length;
-      const bySerious = violations.filter((v) => v.impact === 'serious').length;
-      const byModerate = violations.filter((v) => v.impact === 'moderate').length;
-      const byMinor = violations.filter((v) => v.impact === 'minor').length;
+      const byCritical = violations.filter((v) => v.impact === "critical").length;
+      const bySerious = violations.filter((v) => v.impact === "serious").length;
+      const byModerate = violations.filter((v) => v.impact === "moderate").length;
+      const byMinor = violations.filter((v) => v.impact === "minor").length;
 
       console.log(
-        `  violations: ${violations.length} (critical: ${byCritical}, serious: ${bySerious}, moderate: ${byModerate}, minor: ${byMinor})`
+        `  violations: ${violations.length} (critical: ${byCritical}, serious: ${bySerious}, moderate: ${byModerate}, minor: ${byMinor})`,
       );
       console.log(`  passes: ${passes}, incomplete: ${incomplete}`);
     }
   } catch (err) {
-    status = 'error';
+    status = "error";
     console.log(`  Error: ${err.message}`);
   } finally {
     await page.close();
@@ -120,10 +120,10 @@ for (const url of URLS) {
     url,
     slug,
     status,
-    critical: violations.filter((v) => v.impact === 'critical').length,
-    serious: violations.filter((v) => v.impact === 'serious').length,
-    moderate: violations.filter((v) => v.impact === 'moderate').length,
-    minor: violations.filter((v) => v.impact === 'minor').length,
+    critical: violations.filter((v) => v.impact === "critical").length,
+    serious: violations.filter((v) => v.impact === "serious").length,
+    moderate: violations.filter((v) => v.impact === "moderate").length,
+    minor: violations.filter((v) => v.impact === "minor").length,
     total: violations.length,
   });
 }
@@ -132,6 +132,6 @@ await context.close();
 await browser.close();
 
 // Guardar resumen agregado
-const summaryPath = join(REPORTS_DIR, 'axe-summary.json');
+const summaryPath = join(REPORTS_DIR, "axe-summary.json");
 writeFileSync(summaryPath, JSON.stringify(summary, null, 2));
 console.log(`\n✅ axe completado. Resumen: ${summaryPath}`);

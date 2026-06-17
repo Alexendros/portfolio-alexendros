@@ -74,8 +74,7 @@ export function makeProfessionalServiceJsonLd(): WithContext<ProfessionalService
 }
 
 export function makeBlogPostingJsonLd(post: Post): WithContext<BlogPosting> {
-  const description =
-    post.metaDescription ?? post.desc ?? `${post.title} — nota de ingeniería.`;
+  const description = post.metaDescription ?? post.desc ?? `${post.title} — nota de ingeniería.`;
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -98,9 +97,7 @@ export function makeBlogPostingJsonLd(post: Post): WithContext<BlogPosting> {
   };
 }
 
-export function makeCreativeWorkJsonLd(
-  project: Project
-): WithContext<SoftwareApplication> {
+export function makeCreativeWorkJsonLd(project: Project): WithContext<SoftwareApplication> {
   const description = project.metaDescription ?? project.desc;
   return {
     "@context": "https://schema.org",
@@ -121,7 +118,7 @@ export function makeCreativeWorkJsonLd(
 }
 
 export function makeBreadcrumbJsonLd(
-  items: { name: string; url: string }[]
+  items: { name: string; url: string }[],
 ): WithContext<BreadcrumbList> {
   return {
     "@context": "https://schema.org",

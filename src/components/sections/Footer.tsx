@@ -66,10 +66,16 @@ export function Footer() {
           © 2026 {SITE.name} · {SITE.domain} · Construido con Next.js
         </span>
         <span className="ak-footer-legal">
-          <span className="ak-footer-lk opacity-50 cursor-not-allowed" style={{ display: "inline", margin: 0 }}>
+          <span
+            className="ak-footer-lk opacity-50 cursor-not-allowed"
+            style={{ display: "inline", margin: 0 }}
+          >
             Privacidad
           </span>
-          <span className="ak-footer-lk opacity-50 cursor-not-allowed" style={{ display: "inline", margin: 0 }}>
+          <span
+            className="ak-footer-lk opacity-50 cursor-not-allowed"
+            style={{ display: "inline", margin: 0 }}
+          >
             Aviso legal
           </span>
         </span>
